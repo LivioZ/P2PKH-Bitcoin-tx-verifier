@@ -7,6 +7,7 @@ This is a Python command line program that verifies Bitcoin's Pay-to-PubkeyHash 
 pip install -r requirements.txt
 python3 tx_verify.py -h
 ```
+
 ```
 usage: tx_verify.py [-h] -t TXID
 
@@ -15,6 +16,38 @@ Bitcoin Pay-to-PubkeyHash (P2PKH) transactions verifier for Cryptography Course 
 options:
   -h, --help            show this help message and exit
   -t TXID, --txid TXID  The ID of the transaction to verify
+```
+
+If you get the following error
+
+```
+ValueError: unsupported hash type ripemd160
+```
+
+Find the directory that holds the OpenSSL config file with the command:
+```
+openssl version -d
+```
+Now open the file:
+```
+sudo nano openssl.cnf
+```
+Make sure that the config file contains the following lines:
+```
+openssl_conf = openssl_init
+
+[openssl_init]
+providers = provider_sect
+
+[provider_sect]
+default = default_sect
+legacy = legacy_sect
+
+[default_sect]
+activate = 1
+
+[legacy_sect]
+activate = 1
 ```
 
 ## How raw transactions are composed
