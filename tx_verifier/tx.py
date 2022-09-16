@@ -21,7 +21,6 @@ class Transaction:
     def get_raw_tx(self):
         return self.__raw_tx
 
-
     def extract_version(self):
         '''
         Returns transaction version (hex)
@@ -35,7 +34,6 @@ class Transaction:
         '''
         # input count: 1 byte
         return int.from_bytes(self.__raw_tx[4:5], 'little')
-
 
     def extract_inputs(self):
         '''

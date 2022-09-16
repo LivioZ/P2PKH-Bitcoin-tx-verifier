@@ -18,8 +18,9 @@ class Verifier:
         i = 1
 
         for input_obj in inputs:
-            # hash160 of public key from address (base58 checksum check)
-            addr_hash160 = self.calc_hash160(input_obj.get_pubkey())
+            # hash160 of public key
+            addr_hash160 = utility.hash160(input_obj.get_pubkey()).hex()
+            # get pubkeyhash of previous transaction output
             prev_pubkeyhash, prev_script_with_size = self.extract_prev_script_and_pubkey(input_obj.get_prev_txid(), input_obj.get_prev_out())
 
             if prev_pubkeyhash != addr_hash160:
@@ -47,17 +48,6 @@ class Verifier:
             return True
         else:
             return False
-
-
-    def calc_hash160(self, pubkey):
-        '''
-        Calculates the hash160 of the address, given the corresponding public key
-        '''
-        # address derived from public key by hash160ing and encoding to base58
-        address = utility.pubkeyToAddress(pubkey)
-
-        # hash160 of public key from address (base58 checksum check)
-        return utility.hash160_address(address)
 
 
     def extract_prev_script_and_pubkey(self, prev_txid, prev_out):

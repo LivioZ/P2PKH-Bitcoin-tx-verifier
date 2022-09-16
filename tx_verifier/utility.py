@@ -1,13 +1,8 @@
-from string import hexdigits
-import base58, hashlib, ecdsa
+import hashlib, ecdsa
 
 
 def sha256(binstr):
     return hashlib.sha256(binstr).digest()
-
-
-def double_sha256(binstr):
-    return hashlib.sha256(hashlib.sha256(binstr).digest()).digest()
 
 
 def hash160(hex):
@@ -22,24 +17,6 @@ def hash160(hex):
 
     rmd160.update(hash1)
     return rmd160.digest()
-
-
-def convertPKHToAddress(prefix, addr):
-    data = prefix + addr
-    addr_checksum = double_sha256(data)[:4]
-    return base58.b58encode(data + addr_checksum)
-
-
-def pubkeyToAddress(pubkey_hex):
-    '''
-    pubkey_hex: public key in hex
-    returns: address in base58
-    '''
-    return convertPKHToAddress(b'\x00', hash160(pubkey_hex))
-
-
-def hash160_address(addr):
-    return base58.b58decode_check(addr)[1:].hex()
 
 
 def verify_transaction(pub_key, sig, tx_h256):
