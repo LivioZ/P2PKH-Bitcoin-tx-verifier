@@ -4,4 +4,4 @@ ecdsa==0.18.0
 idna==3.3
 requests==2.31.0
 six==1.16.0
-urllib3==1.26.10
+urllib3==1.26.17
